@@ -1,11 +1,8 @@
-//Copyright (c) Microsoft Corporation. All rights reserved.
-//Licensed under the MIT License.
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TestConsumer {
-    //Change constant to send messages to the desired topic
-    private final static String TOPIC = "test";
+    private final static String TOPIC = "ehub-twitter-3m";
     
     private final static int NUM_THREADS = 1;
 
