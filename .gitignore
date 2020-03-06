@@ -1,0 +1,4 @@
+consumer/src/main/resources/consumer.config
+producer/src/main/resources/producer.config
+consumer/target/
+producer/target/
