@@ -1,3 +1,4 @@
 */src/main/resources/*.config
-consumer/target/
-producer/target/
+*/target/
+producer/.settings/org.eclipse.jdt.core.prefs
+producer/.classpath
