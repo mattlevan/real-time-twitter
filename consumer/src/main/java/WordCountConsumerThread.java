@@ -12,13 +12,13 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Properties;
 
-public class TwitterConsumerThread implements Runnable {
+public class WordCountConsumerThread implements Runnable {
     private final String TOPIC;
     
     // Each consumer needs a unique client ID per thread
     private static int id = 0;
 
-    public TwitterConsumerThread(final String TOPIC) {
+    public WordCountConsumerThread(final String TOPIC) {
         this.TOPIC = TOPIC;
     }
 
@@ -44,8 +44,8 @@ public class TwitterConsumerThread implements Runnable {
     private Consumer<Long, String> createConsumer() {
         try {
             final Properties properties = new Properties();
-            synchronized (TwitterConsumerThread.class) {
-                properties.put(ConsumerConfig.CLIENT_ID_CONFIG, "TwitterConsumer#" + id);
+            synchronized (WordCountConsumerThread.class) {
+                properties.put(ConsumerConfig.CLIENT_ID_CONFIG, "WordCountConsumer#" + id);
                 id++;
             }
             properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
