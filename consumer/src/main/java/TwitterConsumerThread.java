@@ -7,24 +7,24 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Properties;
 
-public class TestConsumerThread implements Runnable {
+public class TwitterConsumerThread implements Runnable {
     private final String TOPIC;
     
     // Each consumer needs a unique client ID per thread
     private static int id = 0;
 
-    public TestConsumerThread(final String TOPIC){
+    public TwitterConsumerThread(final String TOPIC) {
         this.TOPIC = TOPIC;
     }
 
-    public void run (){
+    public void run() {
         final Consumer<Long, String> consumer = createConsumer();
         System.out.println("Polling...");
 
         try {
             while (true) {
                 final ConsumerRecords<Long, String> consumerRecords = consumer.poll(1000);
-                for(ConsumerRecord<Long, String> cr : consumerRecords) {
+                for (ConsumerRecord<Long, String> cr : consumerRecords) {
                     System.out.printf("Consumer Record:(%d, %s, %d, %d)\n", cr.key(), cr.value(), cr.partition(), cr.offset());
                 }
                 consumer.commitAsync();
@@ -39,28 +39,28 @@ public class TestConsumerThread implements Runnable {
     private Consumer<Long, String> createConsumer() {
         try {
             final Properties properties = new Properties();
-            synchronized (TestConsumerThread.class) {
-                properties.put(ConsumerConfig.CLIENT_ID_CONFIG, "KafkaExampleConsumer#" + id);
+            synchronized (TwitterConsumerThread.class) {
+                properties.put(ConsumerConfig.CLIENT_ID_CONFIG, "TwitterConsumer#" + id);
                 id++;
             }
             properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
             properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
-            //Get remaining properties from config file
+            // Get remaining properties from config file
             properties.load(new FileReader("src/main/resources/consumer.config"));
 
-            // Create the consumer using properties.
+            // Create the consumer using properties
             final Consumer<Long, String> consumer = new KafkaConsumer<>(properties);
 
-            // Subscribe to the topic.
+            // Subscribe to the topic
             consumer.subscribe(Collections.singletonList(TOPIC));
             return consumer;
             
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("FileNoteFoundException: " + e);
             System.exit(1);
             return null;        //unreachable
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("IOException: " + e);
             System.exit(1);
             return null;        //unreachable

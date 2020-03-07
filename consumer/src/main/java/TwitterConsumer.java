@@ -1,7 +1,7 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TestConsumer {
+public class TwitterConsumer {
     private final static String TOPIC = "ehub-twitter-3m-raw";
     private final static int NUM_THREADS = 1;
 
@@ -9,7 +9,7 @@ public class TestConsumer {
         final ExecutorService executorService = Executors.newFixedThreadPool(NUM_THREADS);
 
         for (int i = 0; i < NUM_THREADS; i++) {
-            executorService.execute(new TestConsumerThread(TOPIC));
+            executorService.execute(new TwitterConsumerThread(TOPIC));
         }
     }
 }
