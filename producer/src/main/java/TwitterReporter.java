@@ -21,7 +21,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class TwitterReporter implements Runnable {
-    private final Producer<Long, String> producer;
+    private final Producer<String, String> producer;
     private final String TOPIC;
     private final List<String> keywords;
     private BlockingQueue<String> queue;
@@ -29,7 +29,7 @@ public class TwitterReporter implements Runnable {
     private Callback callback;
     private Gson gson;
 
-    public TwitterReporter(final Producer<Long, String> producer, final String TOPIC, final List<String> keywords) {
+    public TwitterReporter(final Producer<String, String> producer, final String TOPIC, final List<String> keywords) {
         // Set instance variables
         this.producer = producer;
         this.TOPIC = TOPIC;
@@ -76,11 +76,10 @@ public class TwitterReporter implements Runnable {
         // Produce tweets
         try {
             while (true) {
-                String rawTweet = queue.take();
-                Tweet tweet = gson.fromJson(rawTweet, Tweet.class);
+                Tweet tweet = gson.fromJson(queue.take(), Tweet.class);
                 System.out.printf("Fetched tweet id %d from user %s\n", tweet.getId(), tweet.getUser());
-                long key = tweet.getId();
-                ProducerRecord<Long, String> record = new ProducerRecord<>(TOPIC, key, rawTweet);
+                String key = tweet.getUser().getScreenName();
+                ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC, key, tweet.getText());
                 producer.send(record, callback);
             }
         } catch (Exception e) {

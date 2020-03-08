@@ -1,7 +1,6 @@
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.io.FileReader;
@@ -23,24 +22,24 @@ import java.util.concurrent.Executors;
  * Hub specified by TOPIC and configured in src/main/resources/producer.config.
  */
 public class TwitterProducer {
-    private final static String TOPIC = "twitter-3m-example";
+    private final static String TOPIC = "twitter-3m-text";
     private final static int NUM_THREADS = 1;
 
     public static void main(String... args) throws Exception {
         final List<String> keywords = Arrays.asList(args);
-        final Producer<Long, String> producer = createProducer();
+        final Producer<String, String> producer = createProducer();
         final ExecutorService executorService = Executors.newFixedThreadPool(NUM_THREADS);
 
         for (int i = 0; i < NUM_THREADS; i++)
             executorService.execute(new TwitterReporter(producer, TOPIC, keywords));
     }
 
-    private static Producer<Long, String> createProducer() {
+    private static Producer<String, String> createProducer() {
         try {
             Properties properties = new Properties();
             properties.load(new FileReader("src/main/resources/confluent-producer.config"));
             properties.put(ProducerConfig.CLIENT_ID_CONFIG, "TweetProducer");
-            properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
+            properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
             properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
             return new KafkaProducer<>(properties);
