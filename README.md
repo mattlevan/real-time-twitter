@@ -54,3 +54,7 @@ mvn exec:java -Dexec.mainClass=TwitterWordCount
 ```
 
 Make sure an appropriate `OUTPUT_TOPIC` is created and configured before execution.
+
+# Example
+
+![Example output](https://raw.githubusercontent.com/mattlevan/ehub-twitter/master/example-output.png)
