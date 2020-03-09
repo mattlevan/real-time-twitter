@@ -14,6 +14,8 @@ for educational purposes.
 
 ## Configuration
 
+### Kafka
+
 Make two `resources` directories: one in `consumer/src/main/` and one in 
 `producer/src/main/`. Add a `<producer|consumer>.config` file in each directory, 
 respectively, of the following format:
@@ -27,6 +29,20 @@ sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule require
 ```
 
 Be sure to create topics of your choice and input their names in the source files.
+
+### Twitter
+
+Create a developer account and developer application on https://developer.twitter.com/. 
+Create application keys then create a `twitter.config` file in the 
+`producer/src/main/resources` directory which you created earlier, and complete 
+it to look something like this:
+
+```
+consumer.api.key={{ MY_API_KEY }}
+consumer.api.secret={{ MY_API_SECRET }}
+consumer.access.token={{ MY_ACCESS_TOKEN }}
+consumer.access.token.secret={{ MY_ACCESS_TOKEN_SECRET }}
+```
 
 ## Producer
 
