@@ -1,4 +1,4 @@
-# ehub-twitter
+# real-time-twitter
 
 A "Hello, Twitter" application which utilizes Kafka Producer, Consumer, and Streams APIs 
 for educational purposes.
