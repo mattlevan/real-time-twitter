@@ -46,7 +46,7 @@ public class TwitterProducer {
         }
         catch (Exception e) {
             System.out.println("Failed to create producer with exception: " + e);
-            System.exit(0);
+            System.exit(1);
             return null;
         }
     }
